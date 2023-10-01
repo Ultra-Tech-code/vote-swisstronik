@@ -1,3 +1,5 @@
 # Contract Deployment with Hardhat
 
-This straightforward Hardhat project is designed to guide you in creating a basic smart contract for message setting and retrieval. Dive into deploying your contract and interact with it using scripts & SwisstronikJS 🚀
+A Vote contract deployed on Swisstronik testnet
+contract Address = 0x3D98a2f7dFdAB3c09A28e95f5e49f26be87f7f95
+

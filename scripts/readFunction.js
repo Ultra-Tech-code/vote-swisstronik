@@ -30,21 +30,46 @@ const sendShieldedQuery = async (provider, destination, data) => {
 
 async function main() {
   // Address of the deployed contract
-  const contractAddress = "0xf84Df872D385997aBc28E3f07A2E3cd707c9698a";
+  const contractAddress = "0x3D98a2f7dFdAB3c09A28e95f5e49f26be87f7f95";
 
   // Get the signer (your account)
   const [signer] = await hre.ethers.getSigners();
 
   // Construct a contract instance
-  const contractFactory = await hre.ethers.getContractFactory("Swisstronik");
+  const contractFactory = await hre.ethers.getContractFactory("Vote");
   const contract = contractFactory.attach(contractAddress);
 
-  // Send a shielded query to retrieve data from the contract
-  const functionName = "getMessage";
+  // Send a shielded query to get voters from the contract
+  const functionName = "getVoters";
   const responseMessage = await sendShieldedQuery(signer.provider, contractAddress, contract.interface.encodeFunctionData(functionName));
 
   // Decode the Uint8Array response into a readable string
   console.log("Decoded response:", contract.interface.decodeFunctionResult(functionName, responseMessage)[0]);
+
+  // Send a shielded query to get campaigns from the contract
+  const functionName2 = "getCampaign";
+  const campaignId = 0;
+  const responseMessage2 = await sendShieldedQuery(signer.provider, contractAddress, contract.interface.encodeFunctionData(functionName2, [campaignId]));
+
+  // Decode the Uint8Array response into a readable string
+  console.log("Decoded response:", contract.interface.decodeFunctionResult(functionName2, responseMessage2)[0]);
+
+  // Send a shielded query to get Campaign voters from the contract
+  const functionName3 = "AllCampaignVoters";
+  const responseMessage3 = await sendShieldedQuery(signer.provider, contractAddress, contract.interface.encodeFunctionData(functionName3, [campaignId]));
+
+  // Decode the Uint8Array response into a readable string
+  console.log("Decoded response:", contract.interface.decodeFunctionResult(functionName3, responseMessage3)[0]);
+
+
+  // Send a shielded query to get campaign Vote from the contract
+  const functionName4 = "campaignVote";
+  const responseMessage4 = await sendShieldedQuery(signer.provider, contractAddress, contract.interface.encodeFunctionData(functionName4, [campaignId]));
+
+  // Decode the Uint8Array response into a readable string
+  console.log("Decoded response:", contract.interface.decodeFunctionResult(functionName4, responseMessage4)[0]);
+
+
 }
 
 // Using async/await pattern to handle errors properly
