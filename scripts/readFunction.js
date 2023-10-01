@@ -30,7 +30,7 @@ const sendShieldedQuery = async (provider, destination, data) => {
 
 async function main() {
   // Address of the deployed contract
-  const contractAddress = "0x3D98a2f7dFdAB3c09A28e95f5e49f26be87f7f95";
+  const contractAddress = "0x7FEa3580063ecA42958ebaB5e4035bEBB109dD12";
 
   // Get the signer (your account)
   const [signer] = await hre.ethers.getSigners();

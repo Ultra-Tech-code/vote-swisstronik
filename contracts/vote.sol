@@ -5,8 +5,8 @@ contract Vote {
     //state Variables
     address private admin;
     uint256 private campaignId;
-    address[] votersList;
-    Campaign[] allCampaigns;
+    address[] private votersList;
+    Campaign[] private allCampaigns;
 
 
     //events

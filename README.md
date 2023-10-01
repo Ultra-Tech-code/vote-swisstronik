@@ -1,5 +1,5 @@
 # Contract Deployment with Hardhat
 
 A Vote contract deployed on Swisstronik testnet
-contract Address = 0x3D98a2f7dFdAB3c09A28e95f5e49f26be87f7f95
+contract Address = 0x7FEa3580063ecA42958ebaB5e4035bEBB109dD12
 
