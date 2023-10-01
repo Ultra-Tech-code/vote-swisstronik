@@ -37,6 +37,11 @@ contract Vote {
         _;
     }
 
+    modifier votersAndAdmin(){
+        require(voters[msg.sender] == true || msg.sender == admin, "NOT VOTER OR ADMIN!!");
+        _;
+    }
+
     modifier campaignIdcheck(uint256 _campaignId){
         require(campaigns[_campaignId].campaignCreator != address(0), "Inavlid Campaign Id");
         _;
@@ -45,11 +50,11 @@ contract Vote {
 
 
     //mappings
-    mapping(address => bool) voters;
-    mapping(uint256 => Campaign) campaigns;
-    mapping(address => uint256[]) allUserCampaings;
-    mapping(uint256 => address[]) allCampaignVoters;
-    mapping(address => mapping(uint256 => bool)) hasVoted;
+    mapping(address => bool) private voters;
+    mapping(uint256 => Campaign) private campaigns;
+    mapping(address => uint256[]) private allUserCampaings;
+    mapping(uint256 => address[]) private allCampaignVoters;
+    mapping(address => mapping(uint256 => bool)) private hasVoted;
 
     /**
      * @dev function for admin to register voters
@@ -62,7 +67,7 @@ contract Vote {
     /**
      * @dev function for creating campaign
      */
-    function createCampaign(string memory _CampaingName, uint256 _duration) public{
+    function createCampaign(string memory _CampaingName, uint256 _duration) votersAndAdmin public{
         bytes memory strBytes = bytes(_CampaingName);
         require(strBytes.length > 0, "Invalid CampaingName");
         require(_duration > 0, "Invalid duration");
@@ -99,21 +104,21 @@ contract Vote {
     /**
      * @dev function to return all voters
      */
-    function getVoters() public view returns(address[] memory){
+    function getVoters() public view votersAndAdmin returns(address[] memory){
         return votersList;
     }
     
     /**
      * @dev function to get a campaign
      */
-    function getCampaign(uint256 _campaignId) public view campaignIdcheck(_campaignId) returns(Campaign memory){
+    function getCampaign(uint256 _campaignId) public view campaignIdcheck(_campaignId) votersAndAdmin returns(Campaign memory){
         return (campaigns[_campaignId]);
     }
 
     /**
      * @dev function to get all campaigns created by a user
      */
-    function AllUserCampaigns(address _userAddress) public view returns(Campaign[] memory){
+    function AllUserCampaigns(address _userAddress) public view votersAndAdmin returns(Campaign[] memory){
         uint256[] memory allUserCampaignIndex = allUserCampaings[_userAddress];
         Campaign[] memory userCampaign = new Campaign[](allUserCampaignIndex.length);
     
@@ -129,21 +134,21 @@ contract Vote {
     /**
      * @dev function to get all voters of a campaign
      */
-    function AllCampaignVoters(uint256 _campaignId) public view campaignIdcheck(_campaignId) returns(address[] memory){
+    function AllCampaignVoters(uint256 _campaignId) public view campaignIdcheck(_campaignId) votersAndAdmin returns(address[] memory){
         return allCampaignVoters[_campaignId];
     }
 
     /**
      * @dev function to get all campaigns
      */
-    function allCampaign() public view returns(Campaign[] memory){
+    function allCampaign() public view votersAndAdmin returns(Campaign[] memory){
         return allCampaigns;
     }
 
     /**
      * @dev function to get vote count of a campaign
      */
-    function campaignVote(uint256 _campaignId) public view campaignIdcheck(_campaignId) returns(uint256){
+    function campaignVote(uint256 _campaignId) public view campaignIdcheck(_campaignId) votersAndAdmin returns(uint256){
         return campaigns[_campaignId].voteCount;
     }
 

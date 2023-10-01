@@ -30,7 +30,7 @@ const sendShieldedTransaction = async (signer, destination, data, value) => {
 
 async function main() {
   // Address of the deployed contract
-  const contractAddress = "0x7FEa3580063ecA42958ebaB5e4035bEBB109dD12";
+  const contractAddress = "0x8d09d183A2d0D5a9cC91172a8568e0A1C27314ce";
 
   // Get the signer (your account)
   const [signer] = await hre.ethers.getSigners();
@@ -39,27 +39,27 @@ async function main() {
   const contractFactory = await hre.ethers.getContractFactory("Vote");
   const contract = contractFactory.attach(contractAddress);
 
-  // // Send a shielded transaction to register voter in the contract
-  // const functionName = "registerVoter";
-  // const votersAddress = "0x311350f1c7Ba0F1749572Cc8A948Dd7f9aF1f42a";
-  // const registerVoterTx = await sendShieldedTransaction(signer, contractAddress, contract.interface.encodeFunctionData(functionName, [votersAddress]), 0);
-  // await registerVoterTx.wait();
+  // Send a shielded transaction to register voter in the contract
+  const functionName = "registerVoter";
+  const votersAddress = "0x311350f1c7Ba0F1749572Cc8A948Dd7f9aF1f42a";
+  const registerVoterTx = await sendShieldedTransaction(signer, contractAddress, contract.interface.encodeFunctionData(functionName, [votersAddress]), 0);
+  await registerVoterTx.wait();
 
-  // //It should return a TransactionResponse object
-  // console.log("Transaction Receipt: ", registerVoterTx);
+  //It should return a TransactionResponse object
+  console.log("Transaction Receipt: ", registerVoterTx);
 
 
-  // // Send a shielded transaction to create campaign in the contract
-  // const functionName2 = "createCampaign";
-  // const campaignName = "Donate for Greece thunderstrike incident";
+  // Send a shielded transaction to create campaign in the contract
+  const functionName2 = "createCampaign";
+  const campaignName = "Donate for Greece thunderstrike incident";
 
-  // //20 days in Block.timestamp
-  // const campaignEndDate = 20 * 24 * 60 * 60;
-  // const createCampaignTx = await sendShieldedTransaction(signer, contractAddress, contract.interface.encodeFunctionData(functionName2, [campaignName, campaignEndDate]), 0);
-  // await createCampaignTx.wait();
+  //20 days in Block.timestamp
+  const campaignEndDate = 20 * 24 * 60 * 60;
+  const createCampaignTx = await sendShieldedTransaction(signer, contractAddress, contract.interface.encodeFunctionData(functionName2, [campaignName, campaignEndDate]), 0);
+  await createCampaignTx.wait();
 
-  // //It should return a TransactionResponse object
-  // console.log("Transaction Receipt: ", createCampaignTx);
+  //It should return a TransactionResponse object
+  console.log("Transaction Receipt: ", createCampaignTx);
 
 
   // Send a shielded transaction to vote in the contract
